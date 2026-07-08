@@ -1,0 +1,10 @@
+name: Hello CI
+
+on: [push]  # Déclenché sur chaque push
+
+jobs:
+  hello-job:  # Nom du job
+    runs-on: ubuntu-latest  # Runner Ubuntu
+    steps:
+      - name: Afficher un message
+        run: echo "Hello, CI/CD!"
