@@ -1,0 +1,41 @@
+name: Cache and Artifact
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'  # Active le cache pour npm
+      - name: Installer les dépendances
+        run: npm ci
+      - name: Build
+        run: npm run build
+      - name: Uploader l'artéfact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dossier-dist
+          path: dist/ 
+
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+      - name: Installer les dépendances
+        run: npm ci
+      - name: Télécharger l'artéfact
+        uses: actions/download-artifact@v4
+        with:
+          name: dossier-dist
+          path: dist/
+      - name: Lancer les tests
+        run: npm test
