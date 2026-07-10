@@ -19,4 +19,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = app;  // Exporté pour les tests
+module.exports = app;  // Exporté pour les tests// test protection de branche
