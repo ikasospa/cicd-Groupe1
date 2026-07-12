@@ -1,15 +1,15 @@
 name: Matrix and Branches
-
 on:
   push:
-    branches: [ "main", "develop" ]  # Déclenché sur push vers main et develop
-
+    branches: [ "main", "develop" ]
+  pull_request:
+    branches: [ "main" ]
 jobs:
   test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [22, 24]  # Matrice sur deux versions
+        node-version: [22, 24]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -20,11 +20,10 @@ jobs:
         run: npm ci
       - name: Lancer les tests
         run: npm test
-
   deploy:
     runs-on: ubuntu-latest
     needs: test
-    if: github.ref == 'refs/heads/main'  # Condition : seulement sur la branche main
+    if: github.ref == 'refs/heads/main'
     steps:
       - name: Simuler un déploiement
         run: echo "Déploiement sur la branche main !"
